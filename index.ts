@@ -9,9 +9,6 @@ import morgan from "morgan";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/users";
 import postRoutes from "./routes/post";
-import { register } from "./controllers/Auth";
-import { createPost } from "./controllers/Post";
-import { verifyToken } from "./middleware/auth.js";
 
 dotenv.config();
 const app = express();
@@ -24,8 +21,6 @@ app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 /* ROUTES WITH FILES */
-app.post("/auth/register", register);
-app.post("/posts", verifyToken, createPost);
 
 /* ROUTES */
 app.use("/auth", authRoutes);
