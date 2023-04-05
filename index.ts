@@ -1,4 +1,4 @@
-// @ts-nocheck
+//@ts-nocheck
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
@@ -9,6 +9,9 @@ import morgan from "morgan";
 import authRoutes from "./routes/auth";
 import userRoutes from "./routes/users";
 import postRoutes from "./routes/post";
+import User from "./models/Users";
+import Post from "./models/Post";
+import { users, posts } from "./data/index";
 
 dotenv.config();
 const app = express();
@@ -19,6 +22,13 @@ app.use(morgan("common"));
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
 app.use(bodyParser.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
+app.use((req, res, next) => {
+  // Set CORS headers
+  res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  next();
+});
 
 /* ROUTES WITH FILES */
 
@@ -36,5 +46,9 @@ mongoose
 	})
 	.then(() => {
 		app.listen(PORT, () => console.log(`Server Port: ${PORT}`));
+
+		/* ADD DATA ONE TIME */
+		// User.insertMany(users);
+		// Post.insertMany(posts);
 	})
 	.catch((error) => console.log(`${error} did not connect`));

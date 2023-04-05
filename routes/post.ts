@@ -9,7 +9,7 @@ import { verifyToken } from "../middleware/auth";
 
 const router = express.Router();
 
-router.post("/posts", verifyToken, createPost);
+router.post("/", verifyToken, createPost);
 
 /* READ */
 router.get("/", verifyToken, getFeedPosts);
